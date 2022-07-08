@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Multilingual Project</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div>
+            <ul>
+                <li><a href="{{ path('create_article') }}">Create article</a></li>
+                <li><a href="{{ path('translate_article', { 'lang' : app.request.defaultLocale, 'articleId' : 1 }) }}">Translate article</a></li>
+                <li><a href="{{ path('create_language') }}">Create language</a></li>
+                <li><a href="{{ path('read_article') }}">Read article</a></li>
+                {% for language in globalTemplate.languages %}
+                    {% if language.lang != app.request.locale %}
+                        <li>
+                            <a href="{{ path('change_language', {'language': language.lang}) }}">
+                                <img src="{{ asset('assets/img/flags/'~language.flag) }}" alt="{{ language.lang }}">
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% block body %}{% endblock %}
+    </body>
+</html>

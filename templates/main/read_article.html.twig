@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hey !{% endblock %}
+
+{% block body %}
+
+    <h1>Actual language : <img src="{{ asset('assets/img/flags/' ~ actualLanguage.flag) }}" alt="{{ actualLanguage.lang }}"></h1>
+
+    {% for article in articles %}
+
+    <h1>{{ article.translate(app.request.locale).title }}</h1>
+    <h4>{{ article.author }} - <span>{{ article.dateCreation|date('d/M/Y h:m:s') }}</span></h4>
+    <p>{{ article.translate(app.request.locale).content }}</p>
+
+    {% endfor %}
+
+{% endblock %}

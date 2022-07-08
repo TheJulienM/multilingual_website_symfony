@@ -1,0 +1,46 @@
+{% extends 'base_form.html.twig' %}
+
+{% block title %}Hey !{% endblock %}
+
+{% block body %}
+
+    <label for="article-selector">Article to translate</label>
+    <select id="article-selector" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+
+        {% for article in articles %}
+
+            {% if article.id != app.request.get('articleId') %}
+                <option value="{{ path('translate_article', { 'lang' : app.request.get('lang'), 'articleId' : article.id }) }}">{{ article.id }}</option>
+            {% else %}
+                <option value="{{ path('translate_article', {'lang' : app.request.get('lang'), 'articleId' : article.id }) }}" selected>{{ article.id }}</option>
+            {% endif %}
+
+        {% endfor %}
+
+    </select>
+
+    <label for="language-selector">Language of the translation</label>
+    <select id="language-selector" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+
+    {% for language in languages %}
+
+            {% if language.lang != app.request.get('lang') %}
+                <option value="{{ path('translate_article', { 'lang' : language.lang, 'articleId' : app.request.get('articleId') }) }}">{{ language.lang }}</option>
+            {% else %}
+                <option value="{{ path('translate_article', {'lang' : language.lang, 'articleId' : app.request.get('articleId')}) }}" selected>{{ language.lang }}</option>
+            {% endif %}
+
+    {% endfor %}
+
+    </select>
+
+
+    {{ form_start(formArticleTranslation) }}
+
+
+
+    <button type="submit">Submit</button>
+    {{ form_end(formArticleTranslation) }}
+
+
+{% endblock %}
